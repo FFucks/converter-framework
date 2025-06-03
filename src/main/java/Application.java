@@ -1,19 +1,21 @@
 import converters.*;
-import dto.UserDto;
-import entity.UserEntity;
-import framework.ConversionService;
 import framework.ConverterRegistry;
-import framework.DefaultConversionService;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public class Application {
 
     public static void main(String[] args) {
 
         ConverterRegistry registry = new ConverterRegistry();
-        ConversionService conversionService = new DefaultConversionService(registry);
+
+        registry.registerConverter(String.class, Integer.class, new StringToIntegerConverter());
+        /*registry.registerConverter(new LocalDateToStringConverter());
+        registry.registerConverter(new LongToBigDecimalConverter());
+        registry.registerConverter(new BigDecimalToLongConverter());*/
+
+        registry.convert("123", Integer.class);
+
+
+        /*ConversionService conversionService = new DefaultConversionService(registry);
 
         // Register converters
         // Order matters if converters depend on the conversion service for sub-conversions.
@@ -47,6 +49,6 @@ public class Application {
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        System.out.println("----------------------------------------\n");
+        System.out.println("----------------------------------------\n");*/
     }
 }

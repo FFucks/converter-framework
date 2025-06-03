@@ -2,19 +2,19 @@ package converters;
 
 import dto.UserDto;
 import entity.UserEntity;
-import framework.ConversionService;
 import framework.Converter;
+import framework.ConverterRegistry;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class UserDtoToUserEntityConverter implements Converter<UserDto, UserEntity> {
 
-    private final ConversionService conversionService; // To handle nested conversions (e.g., String to LocalDate)
+    ConverterRegistry registry = new ConverterRegistry();
+
 
     // Constructor to inject the ConversionService
-    public UserDtoToUserEntityConverter(ConversionService conversionService) {
-        this.conversionService = conversionService;
+    public UserDtoToUserEntityConverter() {
     }
 
     @Override
@@ -29,6 +29,7 @@ public class UserDtoToUserEntityConverter implements Converter<UserDto, UserEnti
         target.setEmail(source.getEmail());
 
         if (source.getDateOfBirth() != null && !source.getDateOfBirth().isEmpty()) {
+
             LocalDate dob = conversionService.convert(source.getDateOfBirth(), LocalDate.class);
             target.setDateOfBirth(dob);
         }
