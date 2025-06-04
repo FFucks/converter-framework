@@ -14,14 +14,4 @@ public class LongToBigDecimalConverter implements Converter<Long, BigDecimal> {
         }
         return BigDecimal.valueOf(source);
     }
-
-    @Override
-    public Class<Long> getSourceType() {
-        return Long.class;
-    }
-
-    @Override
-    public Class<BigDecimal> getTargetType() {
-        return BigDecimal.class;
-    }
 }

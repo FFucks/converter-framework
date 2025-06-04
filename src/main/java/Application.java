@@ -1,54 +1,42 @@
 import converters.*;
 import framework.ConverterRegistry;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 public class Application {
 
     public static void main(String[] args) {
 
-        ConverterRegistry registry = new ConverterRegistry();
-
-        registry.registerConverter(String.class, Integer.class, new StringToIntegerConverter());
-        /*registry.registerConverter(new LocalDateToStringConverter());
-        registry.registerConverter(new LongToBigDecimalConverter());
-        registry.registerConverter(new BigDecimalToLongConverter());*/
-
-        registry.convert("123", Integer.class);
-
-
-        /*ConversionService conversionService = new DefaultConversionService(registry);
-
-        // Register converters
-        // Order matters if converters depend on the conversion service for sub-conversions.
-        registry.registerConverter(new StringToLocalDateConverter("dd-MM-yyyy"));
-        registry.registerConverter(new LocalDateToStringConverter());
-        registry.registerConverter(new LongToBigDecimalConverter());
-        registry.registerConverter(new BigDecimalToLongConverter());
-        registry.registerConverter(new UserDtoToUserEntityConverter(conversionService));
-        registry.registerConverter(new UserEntityToUserDtoConverter(conversionService));
-
-        System.out.println("--- Converting UserDto to UserEntity ---");
-        UserDto userDto = new UserDto(1L, "Fabio", "Fucks", "fabio.fucks@gmail.com", "05-12-1988", 1000L);
-        System.out.println("Original DTO: " + userDto);
-
-        UserEntity userEntity = conversionService.convert(userDto, UserEntity.class);
-        System.out.println("Converted Entity: " + userEntity);
-        System.out.println("----------------------------------------\n");
-
-        System.out.println("--- Converting UserEntity to UserDto ---");
-        UserEntity anotherUserEntity = new UserEntity(2L, "Renato", "Alcides", "renato.alcides@hotmail.com", LocalDate.of(1954, 7, 25), BigDecimal.valueOf(966000));
-        System.out.println("Original Entity: " + anotherUserEntity);
-
-        UserDto anotherUserDto = conversionService.convert(anotherUserEntity, UserDto.class);
-        System.out.println("Converted DTO: " + anotherUserDto);
-        System.out.println("----------------------------------------\n");
-
-        System.out.println("--- Attempting conversion for unknown type ---");
         try {
-            Integer value = conversionService.convert("hello", Integer.class);
-            System.out.println("Converted value: " + value);
+            ConverterRegistry registry = new ConverterRegistry();
+
+            registry.registerConverter(String.class, Integer.class, new StringToIntegerConverter());
+            registry.registerConverter(Integer.class,String.class, new IntegerToStringConverter());
+            registry.registerConverter(Long.class, BigDecimal.class, new LongToBigDecimalConverter());
+            registry.registerConverter(LocalDate.class, String.class, new LocalDateToStringConverter());
+            registry.registerConverter(String.class, LocalDate.class, new StringToLocalDateConverter("yyyy-MM-dd"));
+
+            Integer intVal = registry.convert("123", Integer.class);
+            System.out.println("Integer Converted: " + intVal + " " + intVal.getClass());
+
+            String stringVal = registry.convert(456, String.class);
+            System.out.println("String Converted: " + stringVal + " " + stringVal.getClass());
+
+            BigDecimal bigDecVal = registry.convert(1550000L, BigDecimal.class);
+            System.out.println("BigDecimal converted: " + bigDecVal + " " + bigDecVal.getClass());
+
+            String dateStringVal = registry.convert(LocalDate.of(1954, 7, 25), String.class);
+            System.out.println("String converted: " + dateStringVal + " " + dateStringVal.getClass());
+
+            LocalDate localDateVal = registry.convert("1988-12-05", LocalDate.class);
+            System.out.println("LocalDate converted: " + localDateVal + " " + localDateVal.getClass());
+
+            BigDecimal err = registry.convert(111, BigDecimal.class);
+
         } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error on convertion: " + e.getMessage());
         }
-        System.out.println("----------------------------------------\n");*/
+
     }
 }

@@ -13,14 +13,4 @@ public class LocalDateToStringConverter implements Converter<LocalDate, String> 
         }
         return source.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
-
-    @Override
-    public Class<LocalDate> getSourceType() {
-        return LocalDate.class;
-    }
-
-    @Override
-    public Class<String> getTargetType() {
-        return String.class;
-    }
 }

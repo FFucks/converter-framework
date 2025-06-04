@@ -11,16 +11,7 @@ public class StringToBooleanConverter implements Converter<String, Boolean> {
         if (Objects.isNull(source)) {
             return null;
         }
-
+        return "true".equalsIgnoreCase(source) || "0".equalsIgnoreCase(source);
     }
 
-    @Override
-    public Class<String> getSourceType() {
-        return String.class;
-    }
-
-    @Override
-    public Class<Boolean> getTargetType() {
-        return Boolean.class;
-    }
 }

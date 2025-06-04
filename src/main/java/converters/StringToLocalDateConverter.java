@@ -14,8 +14,9 @@ public class StringToLocalDateConverter implements Converter<String, LocalDate> 
         this.formatter = DateTimeFormatter.ofPattern(pattern);
     }
 
+    // Default to YYYY-MM-DD
     public StringToLocalDateConverter() {
-        this(DateTimeFormatter.ISO_LOCAL_DATE.toString()); // Default to YYYY-MM-DD
+        this(DateTimeFormatter.ISO_LOCAL_DATE.toString());
     }
 
     @Override
@@ -28,15 +29,5 @@ public class StringToLocalDateConverter implements Converter<String, LocalDate> 
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Failed to parse date string: " + source + " with format: " + formatter, e);
         }
-    }
-
-    @Override
-    public Class<String> getSourceType() {
-        return String.class;
-    }
-
-    @Override
-    public Class<LocalDate> getTargetType() {
-        return LocalDate.class;
     }
 }

@@ -5,17 +5,9 @@ import entity.UserEntity;
 import framework.Converter;
 import framework.ConverterRegistry;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 public class UserDtoToUserEntityConverter implements Converter<UserDto, UserEntity> {
 
     ConverterRegistry registry = new ConverterRegistry();
-
-
-    // Constructor to inject the ConversionService
-    public UserDtoToUserEntityConverter() {
-    }
 
     @Override
     public UserEntity convert(UserDto source) {
@@ -28,26 +20,7 @@ public class UserDtoToUserEntityConverter implements Converter<UserDto, UserEnti
         target.setLastName(source.getLastName());
         target.setEmail(source.getEmail());
 
-        if (source.getDateOfBirth() != null && !source.getDateOfBirth().isEmpty()) {
-
-            LocalDate dob = conversionService.convert(source.getDateOfBirth(), LocalDate.class);
-            target.setDateOfBirth(dob);
-        }
-        if (source.getMoneyAmount() != null) {
-            BigDecimal amount = conversionService.convert(source.getMoneyAmount(), BigDecimal.class);
-            target.setMoneyAmount(amount);
-        }
 
         return target;
-    }
-
-    @Override
-    public Class<UserDto> getSourceType() {
-        return UserDto.class;
-    }
-
-    @Override
-    public Class<UserEntity> getTargetType() {
-        return UserEntity.class;
     }
 }
